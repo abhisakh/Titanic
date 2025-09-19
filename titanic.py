@@ -228,16 +228,19 @@ def create_speed_histogram(all_data, filename="ship_speed_histogram.png"):
 
 def draw_ship_map(all_data, filename="ship_map.png"):
     """
-    Plot ship positions on a scatter plot map and save to a file.
+    Plot ship positions on a scatter plot and save the map to a file.
 
     Args:
         all_data (dict): Dictionary containing ship data.
-        filename (str, optional): Output file name. Defaults to "ship_map.png".
+        filename (str): Output filename for the map image.
     """
     lats = []
     lons = []
+    total = 0
+    skipped = 0
 
     for ship in all_data['data']:
+        total += 1
         lat = ship.get("LAT")
         lon = ship.get("LON")
 
@@ -248,11 +251,17 @@ def draw_ship_map(all_data, filename="ship_map.png"):
                 lats.append(lat)
                 lons.append(lon)
             except ValueError:
-                continue
+                skipped += 1
+        else:
+            skipped += 1
 
     if not lats or not lons:
         print("No valid ship position data available.")
         return
+
+    print(f"Processed {total} ships.")
+    print(f"Valid position entries: {len(lats)}")
+    print(f"Skipped entries: {skipped}")
 
     plt.figure(figsize=(12, 6))
     plt.scatter(lons, lats, s=5, alpha=0.6, color="blue", label="Ships")
@@ -261,7 +270,6 @@ def draw_ship_map(all_data, filename="ship_map.png"):
     plt.ylabel("Latitude")
     plt.grid(True)
     plt.legend()
-
     plt.savefig(filename)
     plt.close()
     print(f"Ship map saved as '{filename}'")
