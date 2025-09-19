@@ -102,14 +102,15 @@ def count_country_ship(all_data):
     Returns:
         dict: Dictionary with countries as keys and ship counts as values.
     """
-    country_list, country_unique = show_countries(all_data)
+    country_list, _ = show_countries(all_data)
     country_dict = {}
-    for unique_country in country_unique:
-        count = 0
-        for country in country_list:
-            if country == unique_country:
-                count += 1
-        country_dict[f"{unique_country}"] = count
+
+    for country in country_list:
+        if country in country_dict:
+            country_dict[country] += 1
+        else:
+            country_dict[country] = 1
+
     return country_dict
 
 
@@ -144,17 +145,15 @@ def count_ship_by_types(all_data):
     Returns:
         dict: Dictionary with ship types as keys and counts as values.
     """
-    ship_type_list = []
-    for ship in all_data['data']:
-        ship_type_list.append(ship['TYPE_SUMMARY'])
-    ship_types = list(set(ship_type_list))
     ship_type_dict = {}
-    for ship_type in ship_types:
-        count = 0
-        for general_type in ship_type_list:
-            if ship_type == general_type:
-                count += 1
-        ship_type_dict[ship_type] = count
+
+    for ship in all_data['data']:
+        ship_type = ship.get('TYPE_SUMMARY', 'Unknown')
+        if ship_type in ship_type_dict:
+            ship_type_dict[ship_type] += 1
+        else:
+            ship_type_dict[ship_type] = 1
+
     return ship_type_dict
 
 
