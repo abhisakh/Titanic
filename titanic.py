@@ -281,13 +281,23 @@ def call_show_countries(all_data, _args):
 
 def call_top_countries(all_data, args):
     """Print top countries by number of ships."""
-    if len(args) == 1 and args[0].isdigit():
-        top_ranking = int(args[0])
+    if len(args) != 1:
+        print("Usage: top_countries <num_countries>")
+        return
+
+    if not args[0].isdigit():
+        print("Error: The argument must be a positive integer.")
+        return
+
+    top_ranking = int(args[0])
+
+    try:
         top_list = top_countries(all_data, top_ranking)
+        print(f"\nTop {top_ranking} Countries by Ship Count:\n")
         for country, count in top_list:
             print(f"{country}: {count}")
-    else:
-        print("Usage: top_countries <num_countries>")
+    except Exception as e:
+        print(f"Error: {e}")
 
 
 def call_show_ship_types(all_data, args):
