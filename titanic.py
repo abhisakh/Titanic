@@ -278,7 +278,13 @@ def draw_ship_map(all_data, filename="ship_map.png"):
 #========================= Create the dispatcher-compatible handler ===========================
 
 def call_help(_all_data, _args):
-    """Print list of available commands."""
+    """
+    Display a list of all available CLI commands.
+
+    This function provides users with an overview of the supported
+    commands and their expected arguments. It does not require any input
+    arguments and is intended to assist users in navigating the CLI tool.
+    """
     print("Available commands:")
     print("  help")
     print("  show_countries")
@@ -291,14 +297,33 @@ def call_help(_all_data, _args):
 
 
 def call_show_countries(all_data, _args):
-    """Print all unique countries."""
+    """
+    Display a list of all unique countries in the ship dataset.
+
+    This function extracts all country entries from the loaded dataset,
+    removes duplicates, sorts them alphabetically, and prints them one
+    per line. It does not accept additional arguments.
+    """
     _, country_unique = show_countries(all_data)
     for country in country_unique:
         print(country)
 
 
 def call_top_countries(all_data, args):
-    """Print top countries by number of ships."""
+    """
+    Display the top N countries by number of ships.
+
+    Args:
+        all_data (dict): Dictionary containing ship metadata.
+        args (list): List containing a single integer argument indicating
+                     how many top countries to display.
+
+    Behavior:
+        - If no argument or an invalid argument is provided, an error
+          message is shown.
+        - Otherwise, prints a list of the top N countries sorted by the
+          number of ships registered under each.
+    """
     if len(args) != 1:
         print("Usage: top_countries <num_countries>")
         return
@@ -319,7 +344,18 @@ def call_top_countries(all_data, args):
 
 
 def call_show_ship_types(all_data, args):
-    """Print counts of ships by type."""
+    """
+    Display counts of ships grouped by their general type.
+
+    Args:
+        all_data (dict): Dictionary containing ship metadata.
+        args (list): Should be empty; no arguments are expected.
+
+    Behavior:
+        - Prints a list of ship types (e.g., Cargo, Tanker) and their
+          respective counts, sorted in descending order of frequency.
+        - If any arguments are passed, an error message is displayed.
+    """
     if args:
         print("Usage: ships_by_types (no arguments)")
         return
@@ -329,7 +365,20 @@ def call_show_ship_types(all_data, args):
 
 
 def call_search_ship(all_data, args):
-    """Prompt for ship name and search."""
+    """
+    Search for ships by name using user-provided input.
+
+    Args:
+        all_data (dict): Dictionary containing ship metadata.
+        args (list): Should be empty; this function prompts the user
+                     for a ship name via input().
+
+    Behavior:
+        - Prompts the user to type part or full name of a ship.
+        - Performs a case-insensitive substring search.
+        - Prints all matching ship names with country and type.
+        - Informs the user if no matches are found.
+    """
     if args:
         print("Usage: search_ship (no arguments)")
         return
@@ -337,7 +386,21 @@ def call_search_ship(all_data, args):
 
 
 def call_speed_histogram(all_data, args):
-    """Create a speed histogram and save to file."""
+    """
+    Generate and save a histogram of ship speeds.
+
+    Args:
+        all_data (dict): Dictionary containing ship metadata.
+        args (list): Optional list with a single filename (e.g., my_plot.png).
+                     If no filename is provided, defaults to
+                     'ship_speed_histogram.png'.
+
+    Behavior:
+        - Extracts ship speed values, filters invalid entries,
+          and generates a histogram.
+        - Saves the plot as an image file and displays summary
+          statistics (processed, valid, skipped entries).
+    """
     filename = "ship_speed_histogram.png"
     if len(args) == 1:
         filename = args[0]
@@ -345,7 +408,19 @@ def call_speed_histogram(all_data, args):
 
 
 def call_draw_map(all_data, args):
-    """Draw ship map and save to file."""
+    """
+    Generate and save a scatter plot of ship positions on a map.
+
+    Args:
+        all_data (dict): Dictionary containing ship metadata.
+        args (list): Optional list with a single filename (e.g., ships_map.png).
+                     If no filename is provided, defaults to 'ship_map.png'.
+
+    Behavior:
+        - Extracts latitude and longitude values from the dataset.
+        - Skips invalid or missing entries with a summary report.
+        - Saves a scatter plot image showing global ship positions.
+    """
     filename = "ship_map.png"
     if len(args) == 1:
         filename = args[0]
@@ -353,7 +428,15 @@ def call_draw_map(all_data, args):
 
 
 def exit_cli(_all_data, _args):
-    """Exit the CLI."""
+    """
+    Exit the CLI tool gracefully.
+
+    This function terminates the command-line interface and
+    exits the program cleanly. Typically triggered by the
+    user typing 'exit'.
+
+    No arguments are required.
+    """
     print("Exiting CLI.")
     raise SystemExit
 
