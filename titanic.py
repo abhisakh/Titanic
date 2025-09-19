@@ -54,14 +54,45 @@ Note:
 
 DISPATCHER PATTERN IMPLEMENTATION:
 -----------------------------------
+
 In this program, we implemented the dispatcher pattern to handle user
-commands instead of using traditional if-elif conditional statements.
-The dispatcher is a dictionary that maps command strings to their
-corresponding handler functions. This approach improves code readability,
-scalability, and maintainability, making it easier to add, remove, or
-update commands without modifying long blocks of conditional logic.
-It also keeps the main loop clean and focused on input parsing and
-execution flow.
+commands instead of relying on traditional if-elif conditional statements.
+The dispatcher is realized as a dictionary that maps command strings
+(entered by the user) to their corresponding handler functions. When a
+command is received, the program looks it up in the dispatcher dictionary
+and calls the associated function dynamically.
+
+This design pattern offers several advantages:
+Improved code readability: By centralizing command-to-function mappings,
+the code avoids cluttered, nested conditional blocks, making the control
+flow easier to understand at a glance.
+
+Enhanced scalability:
+Adding new commands or modifying existing ones becomes straightforward;
+developers simply add or update entries in the dispatcher dictionary
+without touching the core input processing logic.
+
+Better maintainability:
+Since the command handling logic is modularized into discrete functions,
+testing, debugging, and extending individual commands can be done independently,
+reducing the risk of introducing bugs.
+
+Cleaner main loop:
+The main interactive loop remains focused on parsing user input and delegating
+execution, rather than being bogged down by branching logic, which improves
+separation of concerns.
+
+Flexibility for future extensions:
+The dispatcher pattern easily supports advanced features such as command aliases,
+dynamic command loading, or argument preprocessing without major structural changes.
+
+Consistent error handling:
+By funneling command dispatch through a single mechanism, it's simpler to provide
+uniform feedback for unknown commands or invalid arguments.
+
+Overall, the use of the dispatcher pattern contributes to a more robust, modular,
+and user-friendly command-line interface that can evolve gracefully as the project 
+grows.
 ===============================================================================
 """
 
