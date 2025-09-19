@@ -185,24 +185,35 @@ def create_speed_histogram(all_data, filename="ship_speed_histogram.png"):
     Create and save a histogram of ship speeds.
 
     Args:
-        all_data (dict): Dictionary containing ship data.
-        filename (str, optional): Output file name. Defaults to "ship_speed_histogram.png".
+        all_data (dict): Ship data dictionary.
+        filename (str): Output filename for the histogram image.
     """
     speeds = []
+    skipped = 0
+    total = 0
 
     for ship in all_data['data']:
+        total += 1
         speed = ship.get("SPEED")
         if speed is not None:
             try:
                 speed = float(speed)
-                if speed >= 0:  # skip invalid negative speeds
+                if speed >= 0:
                     speeds.append(speed)
+                else:
+                    skipped += 1
             except ValueError:
-                continue  # skip non-numeric speed values
+                skipped += 1
+        else:
+            skipped += 1
 
     if not speeds:
         print("No valid speed data found.")
         return
+
+    print(f"Processed {total} ships.")
+    print(f"Valid speed entries: {len(speeds)}")
+    print(f"Skipped entries: {skipped}")
 
     plt.figure(figsize=(10, 6))
     plt.hist(speeds, bins=20, color='skyblue', edgecolor='black')
@@ -210,7 +221,6 @@ def create_speed_histogram(all_data, filename="ship_speed_histogram.png"):
     plt.xlabel("Speed (knots)")
     plt.ylabel("Number of Ships")
     plt.grid(True)
-
     plt.savefig(filename)
     plt.close()
     print(f"Histogram saved to '{filename}'")
