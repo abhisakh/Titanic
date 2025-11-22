@@ -4,6 +4,7 @@ A command-line interface (CLI) tool for exploring and analyzing maritime ship da
 this tool allows you to search, summarize, and visualize ship metadata and movement data using simple commands.
 
 ---
+
 ## 🧠 Learn & Practice with Ship Data CLI
 
 The Ship Data CLI project is an excellent learning resource for anyone looking to strengthen their 
